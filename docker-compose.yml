@@ -1,0 +1,9 @@
+services:
+  shift_bot:
+    build: .
+    container_name: factory_shift_bot
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data

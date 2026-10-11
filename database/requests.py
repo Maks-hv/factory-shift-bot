@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from typing import Any, Dict, List, Sequence, Tuple
-from sqlalchemy import desc, extract, select
+from sqlalchemy import desc, extract, select, update, delete
 from database.models import RobotEntry, Shift, UserSettings, async_session
 
 DEFAULT_OPERATOR_NAME = "Maksym Khvorostenko"
@@ -156,3 +156,52 @@ async def get_all_user_shifts(user_id: int) -> Sequence[Shift]:
         )
         result = await session.scalars(stmt)
         return result.all()
+    from sqlalchemy import delete, update
+
+async def get_shift_by_id(shift_id: int):
+    async with async_session() as session:
+        stmt = select(Shift).where(Shift.id == shift_id)
+        result = await session.execute(stmt)
+        return result.scalar_one_or_none()
+
+async def delete_shift_by_id(shift_id: int):
+    async with async_session() as session:
+        stmt = delete(Shift).where(Shift.id == shift_id)
+        await session.execute(stmt)
+        await session.commit()
+
+async def update_shift_date(shift_id: int, new_date):
+    async with async_session() as session:
+        stmt = update(Shift).where(Shift.id == shift_id).values(date=new_date)
+        await session.execute(stmt)
+        await session.commit()
+
+async def update_shift_hours(shift_id: int, new_hours: str):
+    async with async_session() as session:
+        stmt = update(Shift).where(Shift.id == shift_id).values(shift_hours=new_hours)
+        await session.execute(stmt)
+        await session.commit()
+
+async def update_shift_pallets(shift_id: int, new_pallets: float):
+    async with async_session() as session:
+        stmt = select(RobotEntry).where(RobotEntry.shift_id == shift_id)
+        result = await session.execute(stmt)
+        entry = result.scalars().first()
+        if entry:
+            entry.pallets = new_pallets
+        else:
+            entry = RobotEntry(shift_id=shift_id, pallets=new_pallets)
+            session.add(entry)
+        await session.commit()
+
+async def update_shift_downtime(shift_id: int, new_downtime: int):
+    async with async_session() as session:
+        stmt = select(RobotEntry).where(RobotEntry.shift_id == shift_id)
+        result = await session.execute(stmt)
+        entry = result.scalars().first()
+        if entry:
+            if hasattr(entry, "downtime_minutes"):
+                entry.downtime_minutes = new_downtime
+            elif hasattr(entry, "downtime"):
+                entry.downtime = new_downtime
+        await session.commit()

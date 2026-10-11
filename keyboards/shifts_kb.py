@@ -24,6 +24,7 @@ def get_main_menu_kb(lang: str = "uk") -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text=t("btn_add_shift", lang))],
+            [KeyboardButton(text=t("btn_history_30", lang))],
             [
                 KeyboardButton(text=t("btn_stats", lang)),
                 KeyboardButton(text=t("btn_charts", lang)),

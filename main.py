@@ -16,6 +16,7 @@ from handlers.reports import reports_router
 from handlers.shift_fsm import shift_router
 from keyboards.shifts_kb import get_main_menu_kb
 from locales import t
+from handlers.history import router as history_router
 
 bot = Bot(token=config.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
@@ -52,6 +53,7 @@ async def main() -> None:
     dp.include_router(shift_router)
     dp.include_router(import_router)
     dp.include_router(reports_router)
+    dp.include_router(history_router)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

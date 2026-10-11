@@ -145,6 +145,13 @@ MESSAGES: Dict[str, Dict[str, str]] = {
         "pl": "✅ Dane dla <b>{robot}</b> dodane!\n• Palety: <b>{pal}</b> (zostało: {krt} krt)\n• Tonaż: <b>{ton}</b>\nŁącznie robotów w zmianie: <b>{count}</b>\n\nDodać kolejnego czy zakończyć?",
         "en": "✅ Data for <b>{robot}</b> added!\n• Pallets: <b>{pal}</b> (cartons left: {krt})\n• Tonnage: <b>{ton}</b>\nTotal robots in shift: <b>{count}</b>\n\nAdd another or finish?",
     },
+    "btn_history_30": {
+        "uk": "📋 Останні 30 днів",
+        "pl": "📋 Ostatnie 30 dni",
+        "en": "📋 Last 30 days",
+    },
+    
+
     "shift_canceled": {"uk": "❌ Запис зміни скасовано.", "pl": "❌ Zapis zmiany anulowany.", "en": "❌ Shift logging canceled."},
     "shift_saved_success": {
         "uk": "✅ <b>Зміну збережено!</b>\n\nЗвіт для бригадира (натисніть, щоб скопіювати):\n\n<code>{report}</code>",
